@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EVALUATION_JOB = exports.EVALUATION_QUEUE = exports.SUBMISSION_JOB = exports.SUBMISSION_QUEUE = exports.CODE_LANGUAGE_JAVASCRIPT = exports.CODE_LANGUAGE_CPP = exports.DOCKER_STREAM_HEADER_SIZE = void 0;
+exports.DOCKER_STREAM_HEADER_SIZE = 8;
+exports.CODE_LANGUAGE_CPP = "CPP";
+exports.CODE_LANGUAGE_JAVASCRIPT = "JavaScript";
+exports.SUBMISSION_QUEUE = "SubmissionQueue";
+exports.SUBMISSION_JOB = "SubmissionJob";
+exports.EVALUATION_QUEUE = "EvaluationQueue";
+exports.EVALUATION_JOB = "EvaluationJob";
