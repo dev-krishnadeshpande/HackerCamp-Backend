@@ -2,9 +2,12 @@ import { Redis } from "ioredis";
 
 import ServerConfig from "./serverConfig";
 
+const redisHost =
+  ServerConfig.NODE_ENV === "development" ? ServerConfig.REDIS_HOST : "redis";
+
 const redisConfig = {
   port: ServerConfig.REDIS_PORT,
-  host: ServerConfig.REDIS_HOST,
+  host: redisHost,
   maxRetriesPerRequest: null,
 };
 

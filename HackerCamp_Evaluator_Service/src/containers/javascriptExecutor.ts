@@ -1,5 +1,6 @@
 import { DockerodeOptions } from "../types/dockerodeOptions";
 import { createContainer, getDecodedStream } from "./containerHelper";
+import pullImage from "./pullImage";
 
 async function javascriptExecutor(
   code: string,
@@ -10,13 +11,15 @@ async function javascriptExecutor(
   const runCommand = `echo "${code}" > test.js && echo "${inputTestCase}" > input.txt && cat input.txt | node test.js`;
 
   const containerOptions: DockerodeOptions = {
-    Image: "node",
+    Image: "node:20",
     AttachStdin: false,
     AttachStdout: true,
     AttachStderr: true,
     Tty: false,
     Cmd: ["/bin/bash", "-c", runCommand],
   };
+
+  await pullImage("node:20");
 
   const container = await createContainer(containerOptions);
 
