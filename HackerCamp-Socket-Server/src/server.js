@@ -3,12 +3,19 @@ const { createServer } = require("http"); // Import http
 const { Server } = require("socket.io"); // Import socket.io
 const Redis = require('ioredis');
 const bodyParser = require('body-parser');
+const serverConfig = require('./config/serverConfig');
 
 const app = express(); // Create express app
 app.use(bodyParser.json());
 const httpServer = createServer(app); // Create http server using express app
 
-const redisCache = new Redis(); // Create Redis client
+// const redisCache = new Redis(); // Create Redis client
+const redisHost = serverConfig.NODE_ENV === 'development' ? serverConfig.REDIS_HOST : 'redis';
+
+const redisCache = new Redis({
+  host: redisHost,
+  port: serverConfig.REDIS_PORT || 6379
+});
 
 const io = new Server(httpServer, {
   cors: {
