@@ -12,7 +12,7 @@ function evaluationWorker(queueName) {
       if (job.name === EVALUATION_JOB) {
         try {
           await submissionRepository.updateSubmission(job.data);
-          const response = await axios.post('http://localhost:3001/sendPayload', {
+          const response = await axios.post('http://socket-server-container:3001/sendPayload', {
             payload: job.data
           });
         }
