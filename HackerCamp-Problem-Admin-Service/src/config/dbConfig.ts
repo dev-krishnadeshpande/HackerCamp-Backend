@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
-import { DB_CONNECTION } from "./serverConfig";
+import { DB_CONNECTION, NODE_ENV, MONGO_URI } from "./serverConfig";
 
 async function ConnectToDB() {
-  await mongoose.connect(DB_CONNECTION!);
+  if (NODE_ENV === "development") {
+    await mongoose.connect(DB_CONNECTION!);
+  } else {
+    await mongoose.connect(MONGO_URI);
+  }
 }
 
 export default ConnectToDB;
