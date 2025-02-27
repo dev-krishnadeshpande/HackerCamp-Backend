@@ -1,0 +1,133 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: no
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - hackercamp-backend-services
+    volumes:
+      - mongo-data:/data/db
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: no
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - hackercamp-backend-services
+    volumes:
+      - /myredis/conf:/usr/local/etc/redis
+    command: redis-server
+
+  problem-admin-service:
+    build:
+      context: ./HackerCamp-Problem-Admin-Service
+      dockerfile: Dockerfile
+    container_name: problem-admin-service
+    restart: no
+    networks:
+      - hackercamp-backend-services
+    ports:
+      - "6060:6060"
+    environment:
+      - NODE_ENV=production
+      - PORT=6060
+      - DB_CONNECTION=mongodb://mongo:27017/problems
+    command: ["npm", "run", "dev"]
+    depends_on:
+      - mongo
+      - redis
+
+  submission-service:
+    build:
+      context: ./HackerCamp-Submission-Service
+      dockerfile: Dockerfile
+    container_name: submission-service
+    restart: no
+    networks:
+      - hackercamp-backend-services
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DB_CONNECTION=mongodb://mongo:27017/submissions
+      - PROBLEM_ADMIN_SERVICE_URL=http://problem-admin-service:6060
+      - SOCKET_SERVER_URL=http://socket-server:3001
+    command: ["npm", "start"]
+    depends_on:
+      - mongo
+      - redis
+
+  evaluator-service:
+    build:
+      context: ./HackerCamp_Evaluator_Service
+      dockerfile: Dockerfile
+    container_name: evaluator-service
+    restart: no
+    networks:
+      - hackercamp-backend-services
+    ports:
+      - "4040:4040"
+    environment:
+      - NODE_ENV=production
+      - PORT=4040
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - mongo
+      - redis
+
+  socket-server:
+    build:
+      context: ./HackerCamp-Socket-Server
+      dockerfile: Dockerfile
+    container_name: socket-server
+    restart: no
+    networks:
+      - hackercamp-backend-services
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+
+  sample-frontend:
+    build:
+      context: ./HackerCamp-Frontend
+      dockerfile: Dockerfile
+    container_name: sample-frontend
+    restart: no
+    networks:
+      - hackercamp-backend-services
+    ports:
+      - "80:80"
+
+networks:
+  hackercamp-backend-services:
+
+volumes:
+  mongo-data:
