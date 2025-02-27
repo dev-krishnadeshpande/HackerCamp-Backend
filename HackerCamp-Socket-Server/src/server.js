@@ -10,10 +10,8 @@ app.use(bodyParser.json());
 const httpServer = createServer(app); // Create http server using express app
 
 // const redisCache = new Redis(); // Create Redis client
-const redisHost = serverConfig.NODE_ENV === 'development' ? serverConfig.REDIS_HOST : 'redis';
-
 const redisCache = new Redis({
-  host: redisHost,
+  host: serverConfig.REDIS_HOST,
   port: serverConfig.REDIS_PORT || 6379
 });
 
