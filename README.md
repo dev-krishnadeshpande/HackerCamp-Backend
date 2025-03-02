@@ -1,38 +1,49 @@
-Added readme.md
+# HackerCamp: Advanced Microservices-based Code Compilation and Execution Platform
 
-Container CMDs
+HackerCamp is an advanced, highly scalable microservices-based platform for code compilation and execution, designed to function like LeetCode or Codeforces. It provides seamless scalability, high availability, and efficient asynchronous execution with Azure deployment and auto-scaling capabilities.
 
-docker run -d --name mongo --network mynetwork -p 27017:27017 -v mongo-data:/data/db mongo
+## Architecture Diagram
 
-docker run -it --name redis --network mynetwork -p 6379:6379 -v /myredis/conf:/usr/local/etc/redis redis redis-server
+![alt text](image.png)
 
-1. Problem Admin Sevice
-   docker build -t problem-admin-service:1.0 .
+## 🚀 Features
 
-docker run --rm --name=problem-admin-service-container --network mynetwork -e MONGO_URI="mongodb://mongo:27017/problems" -p 6060:6060 problem-admin-service:1.0
+### Microservices Architecture & Scalability
 
-2. Submission Service
+- Architected a microservices-based platform ensuring seamless scalability and high availability.
+- Deployed on **Azure Kubernetes Service (AKS)** with auto-scaling groups and load balancers for optimal performance and fault tolerance.
 
-docker build -t submission-service:1.0 .
+### 🛠 Dynamic Problem Administration
 
-docker run --rm --name=submission-service-container --network mynetwork -e MONGO_URI="mongodb://mongo:27017/submissions" -p 8080:8080 submission-service:1.0
+- Developed **Problem Admin Service** using **JavaScript, Express, and MongoDB**.
+- Manages CRUD operations for coding problems.
+- Supports complex test cases and code stubs to facilitate comprehensive evaluation.
 
-3. Evaluator Service
+### ⚡ Advanced Code Execution
 
-docker build -t evaluator-service:1.0 .
+- Implemented an **Executor Service** in **TypeScript and Express**.
+- Utilizes **Docker containers** to support JavaScript code execution.
 
-docker run --rm --name=evaluator-service-container --network mynetwork -p 4040:4040 evaluator-service:1.0
+### 🔗 High-performance Asynchronous Communication
 
-docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock --rm --name=evaluator-service-container --network mynetwork -p 4040:4040 evaluator-service:1.0
+- Designed a robust **Submission Service** using **Fastify**.
+- Handles a high volume of requests efficiently.
+- Integrated **Redis message queues** for asynchronous communication.
+- Implemented **WebSocket services** to provide real-time feedback and enhance interactivity.
 
-4. Socket Server
+### ☁️ Azure Deployment & Operational Excellence
 
-docker build -t socket-server:1.0 .
+- Deployed the entire system on **Azure Kubernetes Service (AKS)**.
+- Utilized **auto-scaling**, **load balancers**, and **monitoring tools** for fault tolerance and performance optimization.
 
-docker run --rm --name=socket-server-container --network mynetwork -p 3001:3001 socket-server:1.0
+## 📌 Technologies Used
 
-5. Sample Socket Frontend
+- **Backend:** Node.js, Express, Fastify, TypeScript
+- **Database:** MongoDB
+- **Message Queue:** Redis
+- **Containerization:** Docker
+- **Orchestration & Deployment:** Kubernetes (AKS)
+- **Real-time Communication:** WebSockets
+- **Cloud Provider:** Azure
 
-docker build -t submission-response-frontend:1.0 .
-
-docker run --rm --name=submission-response-frontend-container --network mynetwork -p 80:80 submission-response-frontend:1.0
+🚀 **HackerCamp: Where coding meets performance and scalability!**
