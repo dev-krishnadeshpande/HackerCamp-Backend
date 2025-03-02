@@ -9,6 +9,10 @@ const app = express(); // Create express app
 app.use(bodyParser.json());
 const httpServer = createServer(app); // Create http server using express app
 
+console.log('serverConfig.REDIS_PORT', serverConfig.REDIS_PORT);
+
+console.log('serverConfig.REDIS_HOST', serverConfig.REDIS_HOST);
+
 // const redisCache = new Redis(); // Create Redis client
 const redisCache = new Redis({
   host: serverConfig.REDIS_HOST,
@@ -62,5 +66,8 @@ app.post('/sendPayload', async (req, res) => {
 })
 
 httpServer.listen(3001, () => {
+  console.log('serverConfig.REDIS_PORT', serverConfig.REDIS_PORT);
+
+  console.log('serverConfig.REDIS_HOST', serverConfig.REDIS_HOST);
   console.log("Server is running on port 3001");
 });
