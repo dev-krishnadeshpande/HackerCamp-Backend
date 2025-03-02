@@ -131,10 +131,11 @@ docker push <acr_name>.azurecr.io/hackercamp-backend/sample-frontend:latest
    kubectl get nodes
    kubectl get pods
 
-   ![alt text](assets/pod-status.png)
+```
 
 # Verify the functionality
-```
+
+![alt text](assets/pod-status.png)
 
 ## Upcoming Changes:
 
