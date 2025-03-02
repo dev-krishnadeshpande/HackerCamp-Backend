@@ -15,7 +15,7 @@ HackerCamp is an advanced, highly scalable microservices-based platform for code
 
 ### 🛠 Dynamic Problem Administration
 
-- Developed **Problem Admin Service** using **JavaScript, Express, and MongoDB**.
+- Developed **Problem Admin Service** using **TypeScript, Express, and MongoDB**.
 - Manages CRUD operations for coding problems.
 - Supports complex test cases and code stubs to facilitate comprehensive evaluation.
 
@@ -131,7 +131,18 @@ docker push <acr_name>.azurecr.io/hackercamp-backend/sample-frontend:latest
    kubectl get nodes
    kubectl get pods
 
+   ![alt text](assets/pod-status.png)
+
 # Verify the functionality
 ```
+
+## Upcoming Changes:
+
+- Features such as TLE and MLE for a particular submission.
+- Code execution support for languages such as C++, Java, Python.
+- Error handling with global error handling middlewares.
+- Create generic response structure.
+- Integrate with Azure Application Insights for sophisticated logging mechanism.
+- Unit tests
 
 🚀 **HackerCamp: Where coding meets performance and scalability!**
